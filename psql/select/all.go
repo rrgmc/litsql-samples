@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql-samples/util"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
 	"github.com/rrgmc/litsql/expr"
+	"github.com/rrgmc/litsql/sq"
 )
 
 func all() error {
@@ -26,20 +26,20 @@ func all() error {
 		sm.FromQ(psql.Select(
 			sm.From("xt"),
 			sm.Where("x = 12"),
-			sm.WhereC("h = ?", litsql.ArgDefault("x", 9122)),
+			sm.WhereC("h = ?", sq.ArgDefault("x", 9122)),
 			// sm.WhereC("j = ?", sql.Named("x", 444)),
 			// sm.WhereC("j = ?", sqlb.DBArg("x")),
 		)),
 		sm.InnerJoin("device").As("x").On("d.x = d.y").On("abc = def"),
 		sm.InnerJoin("double").As("h").On("h.j = x.t"),
 		sm.Where("j = 5 AND k = 12"),
-		sm.WhereC("j IN ?", expr.InP(litsql.Arg("x"), 2, 3)),
+		sm.WhereC("j IN ?", expr.InP(sq.Arg("x"), 2, 3)),
 		sm.WhereC("h IN ?", psql.Select(
 			sm.From("xxx"),
 		)),
-		sm.WhereC("j = ? AND k = ?", litsql.ArgFunc(func() (any, error) {
+		sm.WhereC("j = ? AND k = ?", sq.ArgFunc(func() (any, error) {
 			return "99", nil
-		}), litsql.Arg("second")),
+		}), sq.Arg("second")),
 		sm.WhereE(
 			expr.Or(
 				"a = 5 AND b = 12",
