@@ -1,7 +1,7 @@
 package main
 
 func main() {
-	err := simple()
+	err := all()
 	if err != nil {
 		panic(err)
 	}
