@@ -5,11 +5,10 @@ import (
 	"strings"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql/sq"
 )
 
-func PrintQuery(q litsql.BuildQuery, params map[string]any, writerOptions ...litsql.WriterOption) error {
+func PrintQuery(q sq.BuildQuery, params map[string]any, writerOptions ...sq.WriterOption) error {
 	squery, args, err := q.Build(writerOptions...)
 	if err != nil {
 		return err
