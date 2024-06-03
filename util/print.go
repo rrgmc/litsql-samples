@@ -8,8 +8,8 @@ import (
 	"github.com/rrgmc/litsql/sq"
 )
 
-func PrintQuery(q sq.BuildQuery, params map[string]any, writerOptions ...sq.WriterOption) error {
-	squery, args, err := q.Build(writerOptions...)
+func PrintQuery(q sq.BuildQuery, params map[string]any, options ...sq.BuildQueryOption) error {
+	squery, args, err := q.Build(options...)
 	if err != nil {
 		return err
 	}
@@ -17,11 +17,13 @@ func PrintQuery(q sq.BuildQuery, params map[string]any, writerOptions ...sq.Writ
 	fmt.Println(squery)
 	fmt.Println(strings.Repeat("-", 15), "QUERY ARGS", strings.Repeat("-", 15))
 	spew.Dump(args)
-	fmt.Println(strings.Repeat("+", 15), "PARSED ARGS", strings.Repeat("+", 15))
-	parsedArgs, err := args.Parse(params)
-	if err != nil {
-		return err
+	if params != nil {
+		fmt.Println(strings.Repeat("+", 15), "PARSED ARGS", strings.Repeat("+", 15))
+		parsedArgs, err := args.Parse(params)
+		if err != nil {
+			return err
+		}
+		spew.Dump(parsedArgs)
 	}
-	spew.Dump(parsedArgs)
 	return nil
 }
