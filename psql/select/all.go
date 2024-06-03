@@ -52,7 +52,7 @@ func all() error {
 				expr.Paren("t = 5 AND s = 12"),
 			),
 		),
-		sm.Func(func(a psql.SelectModApply) {
+		sm.Apply(func(a psql.SelectModApply) {
 			a.Apply(
 				sm.Columns("ii", "bb"),
 				sm.Where("x = 15"),
