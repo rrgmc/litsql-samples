@@ -26,20 +26,20 @@ func all() error {
 		sm.FromQ(psql.Select(
 			sm.From("xt"),
 			sm.Where("x = 12"),
-			sm.WhereC("h = ?", sq.ArgDefault("x", 9122)),
+			sm.WhereC("h = ?", sq.NamedArg("x", sq.WithDefaultValue(9122))),
 			// sm.WhereC("j = ?", sql.Named("x", 444)),
-			// sm.WhereC("j = ?", sqlb.DBArg("x")),
+			// sm.WhereC("j = ?", sqlb.DBNamedArg("x")),
 		)),
 		sm.InnerJoin("device").As("x").On("d.x = d.y").On("abc = def"),
 		sm.InnerJoin("double").As("h").On("h.j = x.t"),
 		sm.Where("j = 5 AND k = 12"),
-		sm.WhereC("j IN ?", expr.InP(sq.Arg("x"), 2, 3)),
+		sm.WhereC("j IN ?", expr.InP(sq.NamedArg("x"), 2, 3)),
 		sm.WhereC("h IN ?", psql.Select(
 			sm.From("xxx"),
 		)),
 		sm.WhereC("j = ? AND k = ?", sq.ArgFunc(func() (any, error) {
 			return "99", nil
-		}), sq.Arg("second")),
+		}), sq.NamedArg("second")),
 		sm.WhereE(
 			expr.Or(
 				"a = 5 AND b = 12",
