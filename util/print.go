@@ -19,7 +19,7 @@ func PrintQuery(q sq.BuildQuery, params map[string]any, options ...sq.BuildQuery
 	spew.Dump(args)
 	if params != nil {
 		fmt.Println(strings.Repeat("+", 15), "PARSED ARGS", strings.Repeat("+", 15))
-		parsedArgs, err := args.Parse(params)
+		parsedArgs, err := sq.ParseArgs(args, params)
 		if err != nil {
 			return err
 		}
