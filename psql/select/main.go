@@ -1,7 +1,7 @@
 package main
 
 func main() {
-	err := all()
+	err := customClause()
 	if err != nil {
 		panic(err)
 	}
