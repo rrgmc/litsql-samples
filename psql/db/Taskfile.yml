@@ -1,0 +1,9 @@
+version: '3'
+
+tasks:
+  start-db:
+    cmds:
+      - docker run -d --publish 5455:5432 --name sakila-postgres frantiseks/postgres-sakila
+  stop-db:
+    cmds:
+      - docker stop --name sakila-postgres
