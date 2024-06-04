@@ -21,7 +21,7 @@ func main() {
 		panic(err)
 	}
 
-	err = run(ctx, db)
+	err = runPrepared(ctx, db)
 	if err != nil {
 		panic(err)
 	}
@@ -89,10 +89,9 @@ func runPrepared(ctx context.Context, db *sql.DB) error {
 		return err
 	}
 
-	fmt.Println(queryStr)
-
 	pargs, err := sq.ParseArgs(args, map[string]any{
 		"length": 100,
+		"limit":  10,
 	})
 	if err != nil {
 		return err
