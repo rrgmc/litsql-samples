@@ -9,6 +9,7 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
+	"github.com/rrgmc/litsql/expr"
 	"github.com/rrgmc/litsql/sq"
 )
 
@@ -49,6 +50,55 @@ func run(ctx context.Context, db *sql.DB) error {
 	}
 
 	rows, err := db.QueryContext(ctx, squery, args...)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var id, length int
+		var title string
+		if err := rows.Scan(&id, &title, &length); err != nil {
+			return err
+		}
+		fmt.Println(id, title, length)
+	}
+
+	if rows.Err() != nil {
+		return rows.Err()
+	}
+
+	return nil
+}
+
+func runPrepared(ctx context.Context, db *sql.DB) error {
+	query := psql.Select(
+		sm.Columns("film_id", "title", "length"),
+		sm.From("film"),
+		sm.WhereC("length > ?", sq.NamedArg("length")),
+		sm.LimitE(expr.ArgNamed("limit")),
+	)
+
+	queryStr, args, err := query.Build()
+	if err != nil {
+		return err
+	}
+
+	prepq, err := db.PrepareContext(ctx, queryStr)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(queryStr)
+
+	pargs, err := sq.ParseArgs(args, map[string]any{
+		"length": 100,
+	})
+	if err != nil {
+		return err
+	}
+
+	rows, err := prepq.QueryContext(ctx, pargs...)
 	if err != nil {
 		return err
 	}
