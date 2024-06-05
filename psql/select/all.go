@@ -33,7 +33,7 @@ func all() error {
 		sm.InnerJoin("device").As("x").On("d.x = d.y").On("abc = def"),
 		sm.InnerJoin("double").As("h").On("h.j = x.t"),
 		sm.Where("j = 5 AND k = 12"),
-		sm.WhereC("j IN ?", expr.InP(sq.NamedArg("x"), 2, 3)),
+		sm.WhereC("j IN ?", expr.InP([]any{sq.NamedArg("x"), 2, 3})),
 		sm.WhereC("h IN ?", psql.Select(
 			sm.From("xxx"),
 		)),
