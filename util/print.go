@@ -8,7 +8,7 @@ import (
 	"github.com/rrgmc/litsql/sq"
 )
 
-func PrintQuery(q sq.BuildQuery, params map[string]any, options ...sq.BuildQueryOption) error {
+func PrintQuery(q sq.BuildQuery, params map[string]any, options ...sq.BuildOption) error {
 	squery, args, err := q.Build(options...)
 	if err != nil {
 		return err
