@@ -31,7 +31,7 @@ func run(ctx context.Context, db *sql.DB) error {
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
 		sm.From("film"),
-		sm.WhereC("length > ?", sq.NamedArg("length")),
+		sm.WhereClause("length > ?", sq.NamedArg("length")),
 		sm.Limit(10),
 	)
 
@@ -75,8 +75,8 @@ func runPrepared(ctx context.Context, db *sql.DB) error {
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
 		sm.From("film"),
-		sm.WhereC("length > ?", sq.NamedArg("length")),
-		sm.LimitE(expr.ArgNamed("limit")),
+		sm.WhereClause("length > ?", sq.NamedArg("length")),
+		sm.LimitExpr(expr.ArgNamed("limit")),
 	)
 
 	queryStr, args, err := query.Build()

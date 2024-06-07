@@ -19,7 +19,7 @@ func sample() error {
 	)
 	if filter.Name != "" {
 		query.Apply(
-			sm.WhereC("name = ?", filter.Name),
+			sm.WhereClause("name = ?", filter.Name),
 		)
 	}
 	return util.PrintQuery(query, nil)

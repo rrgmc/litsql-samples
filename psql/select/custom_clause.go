@@ -14,7 +14,7 @@ func customClause() error {
 	query := psql.Select(
 		sm.Columns("id", "name"),
 		sm.From("users"),
-		sm.WhereC("id = ?", "John"),
+		sm.WhereClause("id = ?", "John"),
 		MyClause(),
 	)
 

@@ -23,30 +23,30 @@ func all() error {
 		sm.Distinct("b", "c"),
 		sm.Columns("a", "b", "c"),
 		sm.Columns("d", "e", "f"),
-		sm.FromQ(psql.Select(
+		sm.FromQuery(psql.Select(
 			sm.From("xt"),
 			sm.Where("x = 12"),
-			sm.WhereC("h = ?", sq.NamedArg("x", sq.WithDefaultValue(9122))),
+			sm.WhereClause("h = ?", sq.NamedArg("x", sq.WithDefaultValue(9122))),
 			// sm.WhereClause("j = ?", sql.Named("x", 444)),
 			// sm.WhereClause("j = ?", sqlb.DBNamedArg("x")),
 		)),
 		sm.InnerJoin("device").As("x").On("d.x = d.y").On("abc = def"),
 		sm.InnerJoin("double").As("h").On("h.j = x.t"),
 		sm.Where("j = 5 AND k = 12"),
-		sm.WhereC("j IN ?", expr.InP([]any{sq.NamedArg("x"), 2, 3})),
-		sm.WhereC("h IN ?", psql.Select(
+		sm.WhereClause("j IN ?", expr.InP([]any{sq.NamedArg("x"), 2, 3})),
+		sm.WhereClause("h IN ?", psql.Select(
 			sm.From("xxx"),
 		)),
-		sm.WhereC("j = ? AND k = ?", sq.ArgFunc(func() (any, error) {
+		sm.WhereClause("j = ? AND k = ?", sq.ArgFunc(func() (any, error) {
 			return "99", nil
 		}), sq.NamedArg("second")),
-		sm.WhereE(
+		sm.WhereExpr(
 			expr.Or(
 				"a = 5 AND b = 12",
 				"t = 5 AND s = 12",
 			),
 		),
-		sm.WhereE(
+		sm.WhereExpr(
 			expr.OrE(
 				expr.Paren("a = 5 AND b = 12"),
 				expr.Paren("t = 5 AND s = 12"),
@@ -63,8 +63,8 @@ func all() error {
 		sm.GroupBy("a", "b").Distinct(),
 		sm.Having("b > 12"),
 		sm.OrderBy("b DESC", "c"),
-		sm.OffsetA(10),
-		sm.LimitA(99),
+		sm.OffsetArg(10),
+		sm.LimitArg(99),
 		sm.Union(psql.Select(
 			sm.Columns("a", "b", "c"),
 			sm.From("ttt111"),
