@@ -47,7 +47,7 @@ func all() error {
 			),
 		),
 		sm.WhereExpr(
-			expr.OrE(
+			expr.OrExpr(
 				expr.Paren("a = 5 AND b = 12"),
 				expr.Paren("t = 5 AND s = 12"),
 			),
