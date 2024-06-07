@@ -5,7 +5,7 @@ go 1.22.0
 require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/jackc/pgx/v5 v5.6.0
-	github.com/rrgmc/litsql v0.7.0
+	github.com/rrgmc/litsql v0.8.0
 )
 
 require (
