@@ -58,7 +58,7 @@ func all() error {
 				sm.Where("x = 15"),
 			)
 		}),
-		sm.Window("abc").PartitionBy("depname").OrderBy("salary").From("uuu").Groups(),
+		sm.Window("abc").PartitionBy("depname").OrderBy("salary").From("uuu").Frame("GROUPS"),
 		sm.Window("xyz").PartitionBy("tutor").OrderBy("body"),
 		sm.GroupBy("a", "b").Distinct(),
 		sm.Having("b > 12"),
