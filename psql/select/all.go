@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql-samples/util"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
@@ -74,7 +75,7 @@ func all() error {
 			sm.From("uuuu8888"),
 		)),
 	)
-	return util.PrintQuery(query, map[string]any{
+	return util.PrintQuery(query, litsql.MapArgValues{
 		"x":      56,
 		"second": 2,
 	})

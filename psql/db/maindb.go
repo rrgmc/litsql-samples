@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
+	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
 	"github.com/rrgmc/litsql/expr"
@@ -42,7 +43,7 @@ func run(ctx context.Context, db *sql.DB) error {
 
 	fmt.Println(squery)
 
-	args, err := sq.ParseArgs(params, map[string]any{
+	args, err := sq.ParseArgs(params, litsql.MapArgValues{
 		"length": 100,
 	})
 	if err != nil {
@@ -89,7 +90,7 @@ func runPrepared(ctx context.Context, db *sql.DB) error {
 		return err
 	}
 
-	pargs, err := sq.ParseArgs(args, map[string]any{
+	pargs, err := sq.ParseArgs(args, litsql.MapArgValues{
 		"length": 100,
 		"limit":  10,
 	})
